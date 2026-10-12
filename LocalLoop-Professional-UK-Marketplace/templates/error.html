@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block title %}{{ code }} — LocalLoop{% endblock %}{% block content %}<section class="empty error-page"><div class="eyebrow">OOPS</div><h1>{{ code }}</h1><p>{{ message }}</p><a class="button" href="{{ url_for('home') }}">Back to deals</a></section>{% endblock %}

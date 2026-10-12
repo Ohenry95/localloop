@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: localloop-marketplace
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 60
+    healthCheckPath: /health
+    envVars:
+      - key: LOCALLOOP_ENV
+        value: production
+      - key: LOCALLOOP_SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: localloop-postgres
+          property: connectionString
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: ADMIN_EMAIL
+        sync: false
+
+databases:
+  - name: localloop-postgres
+    plan: basic-256mb
